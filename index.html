@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PaquetExpress Nacional | Envíos Rápidos y Seguros</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #e63946;
+      --dark: #1d1d1d;
+      --gray: #f4f4f4;
+      --text: #333;
+      --light: #fff;
+      --accent: #ff6b35;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    body { font-family: 'Segoe UI', sans-serif; color: var(--text); }
+    a { text-decoration: none; color: inherit; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 999;
+      background: var(--dark); padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 65px; box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; }
+    .nav-logo .icon { font-size: 26px; }
+    .nav-logo span { color: #fff; font-size: 20px; font-weight: 700; }
+    .nav-logo span b { color: var(--primary); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: #ccc; font-size: 14px; transition: color .2s; }
+    .nav-links a:hover { color: var(--primary); }
+    .nav-cta {
+      background: var(--primary); color: #fff;
+      padding: 9px 20px; border-radius: 6px;
+      font-size: 14px; font-weight: 600; transition: background .2s;
+    }
+    .nav-cta:hover { background: #c1121f; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: .3s; }
+    .mobile-menu {
+      display: none; position: fixed; top: 65px; left: 0; width: 100%;
+      background: var(--dark); padding: 20px 5%; flex-direction: column; gap: 16px; z-index: 998;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: #ccc; font-size: 16px; padding: 8px 0; border-bottom: 1px solid #333; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; padding-top: 65px;
+      background: linear-gradient(135deg, #1d1d1d 0%, #2d2d2d 50%, #1a1a2e 100%);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 100px 5% 60px;
+    }
+    .hero-content { max-width: 750px; }
+    .hero-badge {
+      display: inline-block; background: rgba(230,57,70,0.15);
+      border: 1px solid var(--primary); color: var(--primary);
+      padding: 6px 16px; border-radius: 30px; font-size: 13px;
+      font-weight: 600; letter-spacing: 1px; margin-bottom: 22px;
+    }
+    .hero h1 { color: #fff; font-size: clamp(32px, 6vw, 62px); line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { color: var(--primary); }
+    .hero p { color: #aaa; font-size: clamp(15px, 2vw, 18px); line-height: 1.7; margin-bottom: 36px; }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--primary); color: #fff;
+      padding: 14px 30px; border-radius: 8px;
+      font-size: 16px; font-weight: 700; transition: .2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: #c1121f; transform: translateY(-2px); }
+    .btn-outline {
+      border: 2px solid #555; color: #fff;
+      padding: 14px 30px; border-radius: 8px;
+      font-size: 16px; font-weight: 600; transition: .2s;
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .hero-stats {
+      margin-top: 60px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat .num { color: var(--primary); font-size: 32px; font-weight: 800; }
+    .stat .label { color: #888; font-size: 13px; margin-top: 4px; }
+
+    /* RASTREO */
+    .tracking-section {
+      background: var(--primary); padding: 50px 5%;
+    }
+    .tracking-box { max-width: 700px; margin: 0 auto; text-align: center; }
+    .tracking-box h2 { color: #fff; font-size: 28px; margin-bottom: 8px; }
+    .tracking-box p { color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+    .tracking-form { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .tracking-form input {
+      flex: 1; min-width: 220px; padding: 14px 18px;
+      border-radius: 8px; border: none; font-size: 15px;
+      outline: none; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .tracking-form button {
+      background: var(--dark); color: #fff;
+      padding: 14px 28px; border-radius: 8px;
+      border: none; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: .2s; white-space: nowrap;
+    }
+    .tracking-form button:hover { background: #111; }
+    #tracking-result {
+      margin-top: 20px; padding: 18px; background: rgba(255,255,255,0.15);
+      border-radius: 10px; color: #fff; display: none; text-align: left;
+    }
+    .track-step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .track-dot { width: 10px; height: 10px; border-radius: 50%; background: #fff; margin-top: 5px; flex-shrink: 0; }
+    .track-dot.active { background: #ffd166; width: 12px; height: 12px; }
+    .track-info { font-size: 14px; }
+    .track-info .time { font-size: 12px; opacity: .7; }
+
+    /* SERVICIOS */
+    section { padding: 80px 5%; }
+    .section-title { text-align: center; margin-bottom: 50px; }
+    .section-title h2 { font-size: clamp(26px, 4vw, 40px); color: var(--dark); margin-bottom: 12px; }
+    .section-title p { color: #666; font-size: 16px; max-width: 550px; margin: 0 auto; }
+    .section-title .tag {
+      display: inline-block; color: var(--primary); font-size: 13px;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;
+    }
+    .service-card {
+      background: #fff; border-radius: 14px; padding: 32px 28px;
+      box-shadow: var(--shadow); transition: .3s; border: 2px solid transparent;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--primary); transform: scaleX(0); transition: .3s;
+    }
+    .service-card:hover { transform: translateY(-6px); border-color: #f0f0f0; }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      width: 56px; height: 56px; background: rgba(230,57,70,0.1);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin-bottom: 18px;
+    }
+    .service-card h3 { font-size: 18px; margin-bottom: 10px; }
+    .service-card p { color: #666; font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+    .service-tag {
+      background: rgba(230,57,70,0.08); color: var(--primary);
+      padding: 4px 12px; border-radius: 30px; font-size: 12px; font-weight: 600;
+    }
+
+    /* COBERTURA */
+    .coverage { background: var(--gray); }
+    .coverage-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .coverage-text h2 { font-size: clamp(24px, 3.5vw, 38px); margin-bottom: 16px; }
+    .coverage-text p { color: #555; font-size: 15px; line-height: 1.7; margin-bottom: 24px; }
+    .coverage-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .coverage-list li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+    .coverage-list li::before { content: '✓'; color: var(--primary); font-weight: 800; font-size: 16px; }
+    .coverage-map {
+      background: linear-gradient(135deg, #1d1d1d, #2d2d2d);
+      border-radius: 16px; padding: 40px; text-align: center;
+      min-height: 300px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .map-icon { font-size: 80px; margin-bottom: 16px; }
+    .coverage-map h3 { color: #fff; font-size: 22px; margin-bottom: 8px; }
+    .coverage-map p { color: #888; font-size: 14px; }
+    .states-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; justify-content: center; }
+    .state-badge {
+      background: rgba(230,57,70,0.2); color: var(--primary);
+      padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    }
+
+    /* COTIZADOR */
+    .cotizador-section { background: #fff; }
+    .cotizador-box {
+      max-width: 680px; margin: 0 auto;
+      background: var(--dark); border-radius: 20px;
+      padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    .cotizador-box h3 { color: #fff; font-size: 22px; margin-bottom: 28px; text-align: center; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { color: #aaa; font-size: 13px; font-weight: 600; }
+    .form-group input, .form-group select {
+      padding: 12px 14px; background: #2d2d2d;
+      border: 1px solid #444; border-radius: 8px;
+      color: #fff; font-size: 14px; outline: none; transition: .2s;
+    }
+    .form-group input:focus, .form-group select:focus { border-color: var(--primary); }
+    .form-group select option { background: #2d2d2d; }
+    .cotizar-btn {
+      width: 100%; margin-top: 8px; background: var(--primary); color: #fff;
+      padding: 15px; border-radius: 8px; border: none;
+      font-size: 16px; font-weight: 700; cursor: pointer; transition: .2s;
+    }
+    .cotizar-btn:hover { background: #c1121f; }
+    #cotizacion-result {
+      margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.05);
+      border-radius: 10px; display: none;
+    }
+    #cotizacion-result h4 { color: #fff; margin-bottom: 12px; font-size: 16px; }
+    .price-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+    .price-row:last-child { border: none; font-weight: 700; }
+    .price-row span { color: #aaa; font-size: 14px; }
+    .price-row .price { color: var(--primary); font-size: 15px; font-weight: 600; }
+
+    /* POR QUÉ NOSOTROS */
+    .why-us { background: var(--gray); }
+    .why-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;
+    }
+    .why-card { background: #fff; border-radius: 14px; padding: 28px 24px; box-shadow: var(--shadow); text-align: center; }
+    .why-icon { font-size: 42px; margin-bottom: 14px; }
+    .why-card h3 { font-size: 17px; margin-bottom: 10px; }
+    .why-card p { color: #666; font-size: 14px; line-height: 1.6; }
+
+    /* TARIFAS */
+    .tarifas-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; max-width: 1000px; margin: 0 auto;
+    }
+    .tarifa-card {
+      border-radius: 16px; padding: 36px 28px; text-align: center;
+      border: 2px solid #e0e0e0; transition: .3s; position: relative; overflow: hidden;
+    }
+    .tarifa-card.popular {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #fff5f5, #fff);
+    }
+    .popular-tag {
+      position: absolute; top: 16px; right: -26px;
+      background: var(--primary); color: #fff; font-size: 11px; font-weight: 700;
+      padding: 4px 36px; transform: rotate(35deg);
+    }
+    .tarifa-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .tarifa-icon { font-size: 46px; margin-bottom: 12px; }
+    .tarifa-card h3 { font-size: 20px; margin-bottom: 6px; }
+    .tarifa-card .subtitle { color: #888; font-size: 13px; margin-bottom: 20px; }
+    .tarifa-price { font-size: 42px; font-weight: 800; color: var(--primary); }
+    .tarifa-price span { font-size: 18px; font-weight: 400; color: #666; }
+    .tarifa-features { list-style: none; margin: 20px 0; text-align: left; display: flex; flex-direction: column; gap: 10px; }
+    .tarifa-features li { font-size: 14px; color: #555; display: flex; align-items: center; gap: 8px; }
+    .tarifa-features li::before { content: '✓'; color: var(--primary); font-weight: 700; }
+    .tarifa-btn {
+      width: 100%; padding: 13px; border-radius: 8px;
+      font-size: 15px; font-weight: 700; cursor: pointer; transition: .2s;
+      border: 2px solid var(--primary); background: transparent; color: var(--primary);
+    }
+    .tarifa-btn.filled { background: var(--primary); color: #fff; }
+    .tarifa-btn:hover { background: var(--primary); color: #fff; }
+
+    /* TESTIMONIOS */
+    .testimonios { background: var(--gray); }
+    .testimonios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .testim-card { background: #fff; border-radius: 14px; padding: 28px; box-shadow: var(--shadow); }
+    .stars { color: #ffd166; font-size: 18px; margin-bottom: 14px; }
+    .testim-card p { color: #555; font-size: 14px; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testim-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--primary); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; flex-shrink: 0;
+    }
+    .author-name { font-weight: 700; font-size: 14px; }
+    .author-city { color: #888; font-size: 12px; }
+
+    /* FAQ */
+    .faq-list { max-width: 750px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { background: #fff; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+    .faq-question {
+      padding: 18px 22px; font-weight: 600; font-size: 15px;
+      cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+      user-select: none;
+    }
+    .faq-question::after { content: '+'; font-size: 22px; color: var(--primary); transition: .3s; }
+    .faq-item.open .faq-question::after { content: '−'; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+    .faq-answer-inner { padding: 0 22px 18px; color: #555; font-size: 14px; line-height: 1.7; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+
+    /* CONTACTO */
+    .contact-section { background: var(--dark); }
+    .contact-section .section-title h2 { color: #fff; }
+    .contact-section .section-title p { color: #888; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 50px; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 28px; }
+    .contact-item { display: flex; gap: 16px; align-items: flex-start; }
+    .c-icon {
+      width: 48px; height: 48px; background: rgba(230,57,70,0.15);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .c-text h4 { color: #fff; font-size: 15px; margin-bottom: 4px; }
+    .c-text p { color: #888; font-size: 14px; line-height: 1.6; }
+    .c-text a { color: var(--primary); }
+    .contact-form-box { background: #2a2a2a; border-radius: 16px; padding: 36px; }
+    .contact-form-box h3 { color: #fff; font-size: 20px; margin-bottom: 24px; }
+    .cf-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .cf-group label { color: #aaa; font-size: 13px; font-weight: 600; }
+    .cf-group input, .cf-group textarea, .cf-group select {
+      padding: 12px 14px; background: #333; border: 1px solid #444;
+      border-radius: 8px; color: #fff; font-size: 14px; outline: none; transition: .2s;
+      font-family: inherit;
+    }
+    .cf-group input:focus, .cf-group textarea:focus, .cf-group select:focus { border-color: var(--primary); }
+    .cf-group textarea { resize: vertical; min-height: 110px; }
+    .cf-group select option { background: #333; }
+    .send-btn {
+      width: 100%; background: var(--primary); color: #fff;
+      padding: 14px; border-radius: 8px; border: none;
+      font-size: 15px; font-weight: 700; cursor: pointer; transition: .2s;
+    }
+    .send-btn:hover { background: #c1121f; }
+    #form-msg {
+      margin-top: 14px; padding: 12px 16px; border-radius: 8px;
+      background: rgba(76,175,80,0.15); color: #81c784;
+      font-size: 14px; display: none; text-align: center;
+    }
+    .social-links { display: flex; gap: 12px; margin-top: 8px; }
+    .social-btn {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: rgba(255,255,255,0.08); display: flex; align-items: center;
+      justify-content: center; font-size: 18px; transition: .2s; cursor: pointer;
+    }
+    .social-btn:hover { background: var(--primary); }
+
+    /* FOOTER */
+    footer { background: #111; padding: 50px 5% 24px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand { display: flex; flex-direction: column; gap: 14px; }
+    .footer-brand .logo { font-size: 22px; font-weight: 700; color: #fff; }
+    .footer-brand .logo b { color: var(--primary); }
+    .footer-brand p { color: #666; font-size: 14px; line-height: 1.7; }
+    .footer-col h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: .5px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { color: #666; font-size: 14px; transition: .2s; }
+    .footer-col ul li a:hover { color: var(--primary); }
+    .footer-bottom { border-top: 1px solid #222; padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 10px; }
+    .footer-bottom p { color: #444; font-size: 13px; }
+    .footer-badges { display: flex; gap: 8px; }
+    .badge-item {
+      background: #1d1d1d; padding: 6px 12px; border-radius: 6px;
+      font-size: 11px; color: #666; font-weight: 600;
+    }
+
+    /* WHATSAPP FLOAT */
+    .whatsapp-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999;
+      width: 58px; height: 58px; background: #25D366;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 30px; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      cursor: pointer; transition: .2s; animation: pulse 2.5s infinite;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 4px 32px rgba(37,211,102,0.7); }
+    }
+
+    /* SCROLL BAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .coverage-content { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 60px 4%; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .cotizador-box { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="icon">📦</span>
+    <span>Paquete<b>Express</b></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#cobertura">Cobertura</a></li>
+    <li><a href="#cotizador">Cotizador</a></li>
+    <li><a href="#tarifas">Tarifas</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a class="nav-cta" href="#contacto">Enviar Ahora</a>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a href="#cobertura" onclick="toggleMenu()">Cobertura</a>
+  <a href="#cotizador" onclick="toggleMenu()">Cotizador</a>
+  <a href="#tarifas" onclick="toggleMenu()">Tarifas</a>
+  <a href="#faq" onclick="toggleMenu()">Preguntas Frecuentes</a>
+  <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🚀 Envíos a todo el país</div>
+    <h1>Tu paquete llega <span>rápido, seguro</span> y a tiempo</h1>
+    <p>Somos la empresa de paquetería nacional más confiable. Conectamos ciudades, negocios y personas con envíos express, estándar y carga en todo el territorio.</p>
+    <div class="hero-btns">
+      <a class="btn-primary" href="#cotizador">📦 Cotizar Envío</a>
+      <a class="btn-outline" href="#servicios">Ver Servicios</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">+32</div><div class="label">Estados cubiertos</div></div>
+      <div class="stat"><div class="num">+500K</div><div class="label">Paquetes entregados</div></div>
+      <div class="stat"><div class="num">98%</div><div class="label">Entregas a tiempo</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="label">Soporte activo</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RASTREO -->
+<div class="tracking-section">
+  <div class="tracking-box">
+    <h2>📍 Rastrea tu paquete</h2>
+    <p>Ingresa tu número de guía para ver el estado de tu envío en tiempo real.</p>
+    <div class="tracking-form">
+      <input type="text" id="trackingInput" placeholder="Ej. PE-2024-890432" />
+      <button onclick="rastrearPaquete()">Rastrear</button>
+    </div>
+    <div id="tracking-result">
+      <div class="track-step">
+        <div class="track-dot"></div>
+        <div class="track-info">
+          <strong>Paquete recibido en sucursal</strong>
+          <div class="time">10 Jun 2024 · 09:14 AM · Ciudad de México</div>
+        </div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot"></div>
+        <div class="track-info">
+          <strong>En tránsito hacia centro de distribución</strong>
+          <div class="time">10 Jun 2024 · 12:30 PM · Toluca</div>
+        </div>
+      </div>
+      <div class="track-step">
+        <div class="track-dot active"></div>
+        <div class="track-info">
+          <strong style="color:#ffd166">🚚 En reparto — salió para entrega</strong>
+          <div class="time">11 Jun 2024 · 08:00 AM · Destino estimado: hoy</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="section-title">
+    <div class="tag">Nuestros servicios</div>
+    <h2>Todo lo que necesitas para enviar</h2>
+    <p>Desde sobres hasta pallets, tenemos la solución de envío que tu negocio necesita.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <h3>Envío Express</h3>
+      <p>Entrega garantizada el mismo día o al siguiente día hábil en rutas principales. Ideal para documentos urgentes y paquetes pequeños.</p>
+      <span class="service-tag">1–2 días</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <h3>Envío Estándar</h3>
+      <p>La opción más popular. Entrega en 2 a 5 días hábiles con rastreo en tiempo real y seguro incluido hasta $5,000.</p>
+      <span class="service-tag">2–5 días</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏭</div>
+      <h3>Carga Masiva</h3>
+      <p>Soluciones para empresas con alto volumen de envíos. Tarifas preferenciales, recolección en domicilio y facturación mensual.</p>
+      <span class="service-tag">Empresarial</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">❄️</div>
+      <h3>Envío Refrigerado</h3>
+      <p>Transportamos productos perecederos, farmacéuticos y alimentos con cadena de frío controlada y verificada.</p>
+      <span class="service-tag">Temperatura controlada</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💼</div>
+      <h3>Documentos y Sobres</h3>
+      <p>Envía contratos, cheques, documentos legales con sobre certificado y firma de recibido. Máxima seguridad.</p>
+      <span class="service-tag">Certificado</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛍️</div>
+      <h3>Devoluciones</h3>
+      <p>Facilita las devoluciones de tu e-commerce con nuestro servicio de logística inversa. Etiquetas prepagadas incluidas.</p>
+      <span class="service-tag">E-commerce</span>
+    </div>
+  </div>
+</section>
+
+<!-- COBERTURA -->
+<section id="cobertura" class="coverage">
+  <div class="coverage-content">
+    <div class="coverage-text">
+      <div class="tag" style="color:var(--primary);font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:8px;">Cobertura nacional</div>
+      <h2>Llegamos a los 32 estados de la República</h2>
+      <p>Contamos con más de 800 sucursales y una red de distribución que cubre zonas urbanas, semiurbanas y rurales en todo el país. Tu paquete no conoce fronteras internas.</p>
+      <ul class="coverage-list">
+        <li>Más de 800 sucursales activas</li>
+        <li>Recolección a domicilio en +200 ciudades</li>
+        <li>Puntos de acceso en tiendas de conveniencia</li>
+        <li>Entrega a zonas rurales con envío accesible</li>
+        <li>Integración con plataformas de e-commerce</li>
+      </ul>
+      <a class="btn-primary" href="#contacto" style="display:inline-flex">Ver sucursales →</a>
+    </div>
+    <div class="coverage-map">
+      <div class="map-icon">🗺️</div>
+      <h3>Cobertura Nacional</h3>
+      <p>32 estados · +800 sucursales</p>
+      <div class="states-badges">
+        <span class="state-badge">CDMX</span><span class="state-badge">JAL</span>
+        <span class="state-badge">NL</span><span class="state-badge">PUE</span>
+        <span class="state-badge">VER</span><span class="state-badge">GTO</span>
+        <span class="state-badge">MEX</span><span class="state-badge">TAM</span>
+        <span class="state-badge">SON</span><span class="state-badge">CHH</span>
+        <span class="state-badge">OAX</span><span class="state-badge">YUC</span>
+        <span class="state-badge">COL</span><span class="state-badge">SLP</span>
+        <span class="state-badge">+18 más</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COTIZADOR -->
+<section id="cotizador" class="cotizador-section">
+  <div class="section-title">
+    <div class="tag">Cotizador</div>
+    <h2>¿Cuánto cuesta tu envío?</h2>
+    <p>Obtén una cotización al instante con nuestro calculador de tarifas.</p>
+  </div>
+  <div class="cotizador-box">
+    <h3>📦 Calcular precio de envío</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Ciudad de origen</label>
+        <select id="origen">
+          <option value="">Seleccionar...</option>
+          <option value="cdmx">Ciudad de México</option>
+          <option value="gdl">Guadalajara</option>
+          <option value="mty">Monterrey</option>
+          <option value="pue">Puebla</option>
+          <option value="mex">Toluca</option>
+          <option value="otros">Otra ciudad</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Ciudad de destino</label>
+        <select id="destino">
+          <option value="">Seleccionar...</option>
+          <option value="cdmx">Ciudad de México</option>
+          <option value="gdl">Guadalajara</option>
+          <option value="mty">Monterrey</option>
+          <option value="pue">Puebla</option>
+          <option value="ver">Veracruz</option>
+          <option value="mer">Mérida</option>
+          <option value="tij">Tijuana</option>
+          <option value="otros">Otra ciudad</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Peso (kg)</label>
+        <input type="number" id="peso" placeholder="Ej. 2.5" min="0.1" max="999" />
+      </div>
+      <div class="form-group">
+        <label>Tipo de servicio</label>
+        <select id="servicio">
+          <option value="express">Express (1–2 días)</option>
+          <option value="estandar">Estándar (2–5 días)</option>
+          <option value="economico">Económico (5–10 días)</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Valor declarado (MXN)</label>
+        <input type="number" id="valor" placeholder="Ej. 1500" min="0" />
+      </div>
+    </div>
+    <button class="cotizar-btn" onclick="cotizar()">Calcular precio →</button>
+    <div id="cotizacion-result">
+      <h4>💰 Desglose de cotización</h4>
+      <div class="price-row"><span>Envío base</span><span class="price" id="precio-base">—</span></div>
+      <div class="price-row"><span>Seguro de carga</span><span class="price" id="precio-seguro">—</span></div>
+      <div class="price-row"><span>IVA (16%)</span><span class="price" id="precio-iva">—</span></div>
+      <div class="price-row"><span><strong>Total estimado</strong></span><span class="price" id="precio-total" style="font-size:20px;color:#fff">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ NOSOTROS -->
+<section class="why-us">
+  <div class="section-title">
+    <div class="tag">¿Por qué elegirnos?</div>
+    <h2>Comprometidos con tu envío</h2>
+    <p>Más de 10 años conectando México con servicio de calidad.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🔒</div>
+      <h3>Seguro incluido</h3>
+      <p>Todos los envíos cuentan con seguro básico incluido. Amplía la cobertura hasta $50,000 MXN.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📱</div>
+      <h3>App de rastreo</h3>
+      <p>Sigue tu paquete en tiempo real desde la app o web con notificaciones automáticas en cada etapa.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🤝</div>
+      <h3>Soporte 24/7</h3>
+      <p>Equipo de atención disponible todos los días del año por WhatsApp, teléfono y chat en línea.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">⚡</div>
+      <h3>Recolección rápida</h3>
+      <p>Programamos la recolección en tu domicilio en menos de 3 horas en ciudades principales.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💼</div>
+      <h3>Facturación fácil</h3>
+      <p>Generamos tu CFDI automáticamente con cada envío. Compatible con SAT y sistemas contables.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌿</div>
+      <h3>Eco-responsables</h3>
+      <p>Flota con vehículos de baja emisión y embalaje reciclable. Comprometidos con el medio ambiente.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFAS -->
+<section id="tarifas">
+  <div class="section-title">
+    <div class="tag">Planes y Tarifas</div>
+    <h2>Precios claros, sin sorpresas</h2>
+    <p>Elige el plan que mejor se adapte a tus necesidades de envío.</p>
+  </div>
+  <div class="tarifas-grid">
+    <div class="tarifa-card">
+      <div class="tarifa-icon">📄</div>
+      <h3>Personal</h3>
+      <p class="subtitle">Para envíos ocasionales</p>
+      <div class="tarifa-price">$85<span> MXN/kg</span></div>
+      <ul class="tarifa-features">
+        <li>Entrega en 3–5 días hábiles</li>
+        <li>Rastreo básico incluido</li>
+        <li>Seguro hasta $3,000 MXN</li>
+        <li>Recolección en sucursal</li>
+        <li>Factura digital</li>
+      </ul>
+      <button class="tarifa-btn" onclick="location.href='#cotizador'">Cotizar ahora</button>
+    </div>
+    <div class="tarifa-card popular">
+      <div class="popular-tag">POPULAR</div>
+      <div class="tarifa-icon">🚀</div>
+      <h3>Negocio</h3>
+      <p class="subtitle">Para e-commerce y PYMES</p>
+      <div class="tarifa-price">$65<span> MXN/kg</span></div>
+      <ul class="tarifa-features">
+        <li>Entrega en 1–3 días hábiles</li>
+        <li>Rastreo avanzado en tiempo real</li>
+        <li>Seguro hasta $10,000 MXN</li>
+        <li>Recolección a domicilio</li>
+        <li>API de integración</li>
+        <li>Soporte prioritario</li>
+      </ul>
+      <button class="tarifa-btn filled" onclick="location.href='#contacto'">Comenzar ahora</button>
+    </div>
+    <div class="tarifa-card">
+      <div class="tarifa-icon">🏭</div>
+      <h3>Empresarial</h3>
+      <p class="subtitle">Volumen alto y contratos</p>
+      <div class="tarifa-price" style="font-size:32px">Consultar</div>
+      <ul class="tarifa-features">
+        <li>Tarifa personalizada por volumen</li>
+        <li>Ejecutivo de cuenta dedicado</li>
+        <li>Seguro hasta $50,000 MXN</li>
+        <li>Recolección programada</li>
+        <li>Integración WMS / ERP</li>
+        <li>Facturación mensual</li>
+        <li>SLA garantizado</li>
+      </ul>
+      <button class="tarifa-btn" onclick="location.href='#contacto'">Contactar ventas</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="testimonios">
+  <div class="section-title">
+    <div class="tag">Testimonios</div>
+    <h2>Lo que dicen nuestros clientes</h2>
+    <p>Miles de personas y empresas confían en nosotros cada día.</p>
+  </div>
+  <div class="testimonios-grid">
+    <div class="testim-card">
+      <div class="stars">★★★★★</div>
+      <p>"Llevo 3 años usando PaqueteExpress para mi tienda en línea. Nunca me han fallado, el rastreo en tiempo real es excelente y mis clientes siempre quedan contentos."</p>
+      <div class="testim-author">
+        <div class="author-avatar">M</div>
+        <div><div class="author-name">Mariana Torres</div><div class="author-city">Guadalajara, JAL · Tienda Moda</div></div>
+      </div>
+    </div>
+    <div class="testim-card">
+      <div class="stars">★★★★★</div>
+      <p>"Enviamos más de 500 paquetes al mes. El plan empresarial nos da precios increíbles y el ejecutivo de cuenta resuelve cualquier problema en minutos."</p>
+      <div class="testim-author">
+        <div class="author-avatar">R</div>
+        <div><div class="author-name">Roberto Sánchez</div><div class="author-city">Monterrey, NL · Distribuidora Médica</div></div>
+      </div>
+    </div>
+    <div class="testim-card">
+      <div class="stars">★★★★★</div>
+      <p>"Tuve que enviar documentos urgentes a Mérida desde CDMX. Con el servicio express llegaron al siguiente día antes del mediodía. Impresionante."</p>
+      <div class="testim-author">
+        <div class="author-avatar">L</div>
+        <div><div class="author-name">Lucía Ramírez</div><div class="author-city">Ciudad de México · Notaría Pública</div></div>
+      </div>
+    </div>
+    <div class="testim-card">
+      <div class="stars">★★★★☆</div>
+      <p>"El proceso de devolución de mi e-commerce ahora es automático gracias a su API. Mis clientes pueden generar la etiqueta solos. ¡Increíble!"</p>
+      <div class="testim-author">
+        <div class="author-avatar">C</div>
+        <div><div class="author-name">Carlos Mendez</div><div class="author-city">Puebla, PUE · E-commerce</div></div>
+      </div>
+    </div>
+    <div class="testim-card">
+      <div class="stars">★★★★★</div>
+      <p>"Tenía dudas sobre envíos a zona rural pero llegaron perfectamente a mi rancho en Oaxaca. Recomendado al 100% para todo México."</p>
+      <div class="testim-author">
+        <div class="author-avatar">A</div>
+        <div><div class="author-name">Andrés Olivera</div><div class="author-city">Oaxaca, OAX · Agricultor</div></div>
+      </div>
+    </div>
+    <div class="testim-card">
+      <div class="stars">★★★★★</div>
+      <p>"La atención al cliente es de 10. Me ayudaron a ubicar un paquete que parecía perdido y lo resolvieron en menos de 2 horas. Muy profesionales."</p>
+      <div class="testim-author">
+        <div class="author-avatar">P</div>
+        <div><div class="author-name">Patricia Vega</div><div class="author-city">Veracruz, VER · Cliente frecuente</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-title">
+    <div class="tag">Preguntas frecuentes</div>
+    <h2>Resolvemos tus dudas</h2>
+    <p>Las preguntas más comunes sobre nuestros servicios de paquetería.</p>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Cómo rastreo mi paquete?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">Puedes rastrear tu envío en la parte superior de esta página ingresando tu número de guía. También puedes hacerlo desde nuestra aplicación móvil disponible para iOS y Android, o llamando a nuestro número de atención al cliente 800-PAQUETE.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Cuánto tiempo tardan en recoger mi paquete?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">En ciudades principales la recolección se realiza en un plazo de 2 a 4 horas desde que haces el pedido. En otras ciudades puede tomar hasta 24 horas. El servicio de recolección está disponible de lunes a sábado de 8:00 AM a 7:00 PM.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Qué pasa si nadie está en casa al momento de la entrega?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">Nuestro mensajero intentará la entrega hasta 3 veces. Si no hay nadie disponible, el paquete se llevará a la sucursal más cercana donde podrás recogerlo con identificación oficial en un plazo de 5 días hábiles. También puedes solicitar una nueva cita de entrega desde la app.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Qué objetos no puedo enviar?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">Están prohibidos los artículos ilegales, sustancias peligrosas no declaradas, armas, explosivos, dinero en efectivo superior a $2,000 MXN sin declarar, y cualquier producto que viole la normativa de la SCT. Para productos especiales como medicamentos o artículos frágiles, contacta a un asesor.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Cómo funciona el seguro de mi paquete?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">Todos los envíos incluyen seguro básico de hasta $3,000 MXN sin costo adicional. Puedes ampliar la cobertura hasta $50,000 MXN pagando el 1.5% del valor declarado. En caso de daño o pérdida, debes reportarlo dentro de los 3 días hábiles siguientes a la entrega estimada.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Ofrecen facturas electrónicas (CFDI)?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">Sí, emitimos CFDI para todos los envíos. Al crear tu guía puedes ingresar tus datos fiscales y recibirás la factura automáticamente en tu correo electrónico. También puedes solicitarla retroactivamente desde tu cuenta en el portal o app dentro del mes natural.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Tienen integración con Shopify, WooCommerce o Mercado Libre?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">Sí, contamos con integraciones oficiales con Shopify, WooCommerce, Mercado Libre, Amazon Seller y más de 15 plataformas de e-commerce. La sincronización es automática y la guía se genera en segundos al confirmarse el pedido. Consulta nuestra documentación de API para integraciones personalizadas.</div></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">¿Puedo cancelar o modificar un envío?</div>
+      <div class="faq-answer"><div class="faq-answer-inner">Puedes cancelar un envío antes de que sea recolectado sin ningún costo. Una vez recolectado, se puede redirigir a otra dirección con cargo adicional de $50 MXN, siempre que el paquete no haya llegado al destino. Para modificaciones, contáctanos lo antes posible a nuestro chat 24/7.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="contact-section">
+  <div class="section-title">
+    <div class="tag" style="color:var(--primary)">Contáctanos</div>
+    <h2>Estamos para ayudarte</h2>
+    <p>Nuestro equipo está disponible 24/7. Escríbenos y te respondemos de inmediato.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="c-icon">📞</div>
+        <div class="c-text">
+          <h4>Teléfonos</h4>
+          <p><a href="tel:8007275383">800-PAQUETE (800-727-5383)</a><br/>Lunes–Domingo · 7:00 AM – 10:00 PM</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">💬</div>
+        <div class="c-text">
+          <h4>WhatsApp</h4>
+          <p><a href="https://wa.me/5215512345678">+52 55 1234-5678</a><br/>Atención inmediata · 24/7</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">✉️</div>
+        <div class="c-text">
+          <h4>Correo electrónico</h4>
+          <p><a href="mailto:contacto@paquetexpress.mx">contacto@paquetexpress.mx</a><br/><a href="mailto:ventas@paquetexpress.mx">ventas@paquetexpress.mx</a></p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">🏢</div>
+        <div class="c-text">
+          <h4>Oficinas centrales</h4>
+          <p>Av. Insurgentes Sur 1234, Piso 8<br/>Col. Del Valle, CDMX · C.P. 03100<br/>Lunes–Viernes · 9:00 AM – 6:00 PM</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">🌐</div>
+        <div class="c-text">
+          <h4>Síguenos en redes</h4>
+          <div class="social-links">
+            <div class="social-btn" title="Facebook">f</div>
+            <div class="social-btn" title="Instagram">📷</div>
+            <div class="social-btn" title="Twitter / X">𝕏</div>
+            <div class="social-btn" title="LinkedIn">in</div>
+            <div class="social-btn" title="YouTube">▶</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-box">
+      <h3>📬 Envíanos un mensaje</h3>
+      <div class="cf-group">
+        <label>Nombre completo</label>
+        <input type="text" id="cf-nombre" placeholder="Tu nombre" />
+      </div>
+      <div class="cf-group">
+        <label>Correo electrónico</label>
+        <input type="email" id="cf-email" placeholder="tucorreo@ejemplo.com" />
+      </div>
+      <div class="cf-group">
+        <label>Teléfono (opcional)</label>
+        <input type="tel" id="cf-tel" placeholder="+52 55 0000-0000" />
+      </div>
+      <div class="cf-group">
+        <label>Asunto</label>
+        <select id="cf-asunto">
+          <option value="">Selecciona un tema...</option>
+          <option>Cotización de envío</option>
+          <option>Rastreo de paquete</option>
+          <option>Reclamación o queja</option>
+          <option>Plan empresarial</option>
+          <option>Facturación</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="cf-group">
+        <label>Mensaje</label>
+        <textarea id="cf-mensaje" placeholder="Describe tu consulta con el mayor detalle posible..."></textarea>
+      </div>
+      <button class="send-btn" onclick="enviarMensaje()">Enviar mensaje →</button>
+      <div id="form-msg">✅ ¡Mensaje enviado! Te contactaremos en menos de 24 horas.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">📦 Paquete<b>Express</b></div>
+      <p>Somos la empresa de paquetería nacional más confiable de México. Conectamos personas y negocios con envíos rápidos, seguros y a precio justo.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#servicios">Envío Express</a></li>
+        <li><a href="#servicios">Envío Estándar</a></li>
+        <li><a href="#servicios">Carga Masiva</a></li>
+        <li><a href="#servicios">Envío Refrigerado</a></li>
+        <li><a href="#servicios">Devoluciones</a></li>
+        <li><a href="#servicios">Documentos</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre nosotros</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Trabaja con nosotros</a></li>
+        <li><a href="#">Prensa</a></li>
+        <li><a href="#">Responsabilidad social</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Aviso de privacidad</a></li>
+        <li><a href="#">Términos y condiciones</a></li>
+        <li><a href="#">Política de envíos</a></li>
+        <li><a href="#">Política de reclamaciones</a></li>
+        <li><a href="#">Cookies</a></li>
+        <li><a href="#">CFDI y facturación</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 PaqueteExpress Nacional. Todos los derechos reservados.</p>
+    <div class="footer-badges">
+      <div class="badge-item">🔒 SSL Seguro</div>
+      <div class="badge-item">📋 RFC Verificado</div>
+      <div class="badge-item">✈️ SCT Autorizado</div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<div class="whatsapp-float" onclick="window.open('https://wa.me/5215512345678','_blank')" title="Escribir por WhatsApp">💬</div>
+
+<script>
+  // Menú hamburguesa
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // Cerrar menú al hacer scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('mobileMenu').classList.remove('open');
+  });
+
+  // Rastreador
+  function rastrearPaquete() {
+    const val = document.getElementById('trackingInput').value.trim();
+    const result = document.getElementById('tracking-result');
+    if (!val) { alert('Por favor ingresa un número de guía.'); return; }
+    result.style.display = 'block';
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Cotizador
+  function cotizar() {
+    const origen = document.getElementById('origen').value;
+    const destino = document.getElementById('destino').value;
+    const peso = parseFloat(document.getElementById('peso').value);
+    const servicio = document.getElementById('servicio').value;
+    const valor = parseFloat(document.getElementById('valor').value) || 0;
+    if (!origen || !destino || !peso) {
+      alert('Por favor completa origen, destino y peso.'); return;
+    }
+    const tarifas = { express: 110, estandar: 75, economico: 50 };
+    const distancia = (origen === destino) ? 0.7 : (Math.random() * 0.6 + 0.8);
+    const base = Math.round(tarifas[servicio] * peso * distancia);
+    const seguro = Math.round(valor * 0.015) || 25;
+    const iva = Math.round((base + seguro) * 0.16);
+    const total = base + seguro + iva;
+    document.getElementById('precio-base').textContent = `$${base.toLocaleString()} MXN`;
+    document.getElementById('precio-seguro').textContent = `$${seguro.toLocaleString()} MXN`;
+    document.getElementById('precio-iva').textContent = `$${iva.toLocaleString()} MXN`;
+    document.getElementById('precio-total').textContent = `$${total.toLocaleString()} MXN`;
+    const r = document.getElementById('cotizacion-result');
+    r.style.display = 'block';
+    r.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // FAQ
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Formulario de contacto
+  function enviarMensaje() {
+    const nombre = document.getElementById('cf-nombre').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const mensaje = document.getElementById('cf-mensaje').value.trim();
+    if (!nombre || !email || !mensaje) {
+      alert('Por favor completa nombre, correo y mensaje.'); return;
+    }
+    const msg = document.getElementById('form-msg');
+    msg.style.display = 'block';
+    ['cf-nombre','cf-email','cf-tel','cf-asunto','cf-mensaje'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    setTimeout(() => { msg.style.display = 'none'; }, 5000);
+  }
+
+  // Smooth scroll nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        e.preventDefault();
+        document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
